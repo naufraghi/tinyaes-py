@@ -1,15 +1,3 @@
-[tool.poetry]
-name = "tinyaes"
-version = "0.1.0"
-description = ""
-authors = ["Matteo Bertini <matteo@naufraghi.net>"]
-
-[tool.poetry.dependencies]
-python = "^3.7"
-
-[tool.poetry.dev-dependencies]
-pytest = "^5.2"
-
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ['cython', 'setuptools']
+build-backend = 'setuptools.build_meta'
