@@ -40,7 +40,6 @@ _test:
 	cipher = AES(b'0123456789ABCDEF')
 	decrypted = cipher.CTR_xcrypt_buffer(encrypted)
 	print("decrypted:", decrypted)
-	cipher.CTR_xcrypt_buffer(bytearray(b'agagag'))
 
 test: install
 	just PY={{PY}} run "just _test"
