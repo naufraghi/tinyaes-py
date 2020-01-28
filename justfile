@@ -41,8 +41,22 @@ _test:
 	decrypted = cipher.CTR_xcrypt_buffer(encrypted)
 	print("decrypted:", decrypted)
 
+_test_null_iv:
+	#!/usr/bin/env python
+	import tinyaes
+	print(tinyaes)
+	from tinyaes import AES
+	cipher = AES(b'0123456789ABCDEF', b'\x00'*16)
+	data = b'ciao'
+	print("data:", data)
+	encrypted = cipher.CTR_xcrypt_buffer(data)
+	print("encrypted:", encrypted)
+	cipher = AES(b'0123456789ABCDEF', b'\x00'*16)
+	decrypted = cipher.CTR_xcrypt_buffer(encrypted)
+	print("decrypted:", decrypted)
+
 test: install
-	just PY={{PY}} run "just _test"
+	just PY={{PY}} run "just _test && just _test_null_iv"
 
 deploy:
 	just PY={{PY}} run "python -m pip install cython setuptools wheel"
