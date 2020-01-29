@@ -1,3 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/tinyaes.svg)](https://badge.fury.io/py/tinyaes)
+
 # tiny-AES-c Cython wrapper
 
 `tinyaes` is a few lines Cython wrapper for the
