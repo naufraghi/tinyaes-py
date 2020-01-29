@@ -58,7 +58,7 @@ _test_null_iv:
 test: install
 	just PY={{PY}} run "just _test && just _test_null_iv"
 
-deploy:
+dist:
 	just PY={{PY}} run "python -m pip install cython setuptools wheel"
 	just PY={{PY}} run "python setup.py sdist"
 	just PY={{PY}} run "python setup.py bdist_wheel"
