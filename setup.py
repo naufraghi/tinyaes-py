@@ -1,20 +1,43 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2020 Matteo Bertini <naufraghi@develer.com>
+
+import os
 from setuptools import setup, find_packages, Extension
-from Cython.Build import cythonize
+
+
+try:
+    from Cython.Build import cythonize
+except ImportError:
+    cythonize = None
+
+if cythonize is not None and os.path.exists("tinyaes.pyx"):
+    # Development mode, rebuild the .c file
+    maybe_cythonize = cythonize
+    source = "tinyaes.pyx"
+else:
+    # Pass-through
+    maybe_cythonize = list
+    source = "tinyaes.c"
+    assert os.path.exists("tinyaes.c"), "Install Cython to build this package from sources"
 
 
 setup(
     name="tinyaes",
     description="tiny-AES-c wrapper in Cython",
-    version="1.0.0a1",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
+    version="1.0.0a2",
     author="Matteo Bertini",
     author_email="naufraghi@develer.com",
     url="https://github.com/naufraghi/tinyaes-py",
     license="MPL-2.0",
-    ext_modules=cythonize(
+    ext_modules=maybe_cythonize(
         [
             Extension(
                 "tinyaes",
-                sources=["tinyaes.pyx", "tiny-AES-c/aes.c"],
+                sources=[source, "tiny-AES-c/aes.c"],
                 include_dirs=["tiny-AES-c/"],
             )
         ]
@@ -38,4 +61,5 @@ setup(
         # Source language
         "Programming Language :: Cython",
     ],
+    keywords="AES Cryptography block-cipher stream-cipher",
 )
