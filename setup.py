@@ -17,7 +17,7 @@ if cythonize is not None and os.path.exists("tinyaes.pyx"):
     maybe_cythonize = cythonize
     source = "tinyaes.pyx"
 else:
-    # Pass-through
+    # Pass-through (sdist installation)
     maybe_cythonize = list
     source = "tinyaes.c"
     assert os.path.exists("tinyaes.c"), "Install Cython to build this package from sources"
@@ -28,7 +28,7 @@ setup(
     description="tiny-AES-c wrapper in Cython",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    version="1.0.0a2",
+    version="1.0.0a3",
     author="Matteo Bertini",
     author_email="naufraghi@develer.com",
     url="https://github.com/naufraghi/tinyaes-py",

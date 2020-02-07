@@ -5,7 +5,6 @@ list:
 
 PY := "python"
 
-
 env:
 	#!/bin/bash
 	PY_MAYOR="$({{PY}} -c 'import sys; sys.stdout.write(str(sys.version_info[0]))')"
@@ -30,7 +29,7 @@ ci-bootstrap PYTHON_VERSION:
 
 clean:
 	rm -rfv .env-$HOSTNAME-py*
-	rm -rfv build dist __pycache__ *.egg-info
+	rm -rfv build dist __pycache__ *.egg-info .hypothesis
 
 run COMMAND: env
 	#!/bin/bash
@@ -41,7 +40,10 @@ run COMMAND: env
 	{{COMMAND}}
 
 install:
-	just PY={{PY}} run "python -m pip install ."
+	just PY={{PY}} run "python -m pip install -e ."
+
+dev-install:
+	just PY={{PY}} run "python -m pip install pytest hypothesis"
 
 _test:
 	#!/usr/bin/env python
@@ -71,10 +73,11 @@ _test_null_iv:
 	decrypted = cipher.CTR_xcrypt_buffer(encrypted)
 	print("decrypted:", decrypted)
 
-test: install
+test: install dev-install
 	just PY={{PY}} run "just _test && just _test_null_iv"
+	just PY={{PY}} run "python -m pytest . -v"
 
-deploy:
+dist:
 	just PY={{PY}} run "python -m pip install cython setuptools wheel"
 	just PY={{PY}} run "python setup.py sdist"
 	just PY={{PY}} run "python setup.py bdist_wheel"
