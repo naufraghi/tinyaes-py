@@ -1,0 +1,26 @@
+name: Python package
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [2.7, 3.7]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        curl -L https://github.com/casey/just/releases/download/v0.5.8/just-v0.5.8-x86_64-unknown-linux-musl.tar.gz | tar -vzx just
+        sudo mv just /usr/local/bin
+        just ci-bootstrap ${{ matrix.python-version }}
+    - name: Test with pytest
+      run: |
+        just test

@@ -3,25 +3,41 @@ set shell := ["bash", "-c"]
 list:
 	@just --list
 
-PY := "python3"
+PY := "python"
+
 
 env:
 	#!/bin/bash
-	if [[ "{{PY}}" == "python3" ]]; then
-	  [[ -e .env-$HOSTNAME-{{PY}} ]] || {{PY}} -m venv .env-$HOSTNAME-{{PY}}
+	PY_MAYOR="$({{PY}} -c 'import sys; sys.stdout.write(str(sys.version_info[0]))')"
+	PY_MINOR="$({{PY}} -c 'import sys; sys.stdout.write(str(sys.version_info[1]))')"
+	PY_VERSION="${PY_MAYOR}${PY_MINOR}"
+	if [[ "$(python -c 'import sys; sys.stdout.write(str(sys.version_info[0]))')" == "3" ]]; then
+	  [[ -e .env-$HOSTNAME-py${PY_VERSION} ]] || {{PY}} -m venv .env-$HOSTNAME-py${PY_VERSION}
 	else
-	  [[ -e .env-$HOSTNAME-{{PY}} ]] || {{PY}} -m virtualenv .env-$HOSTNAME-{{PY}}
+	  [[ -e .env-$HOSTNAME-py${PY_VERSION} ]] || {{PY}} -m virtualenv .env-$HOSTNAME-py${PY_VERSION}
 	fi
-	. .env-$HOSTNAME-{{PY}}/bin/activate
+	. .env-$HOSTNAME-py${PY_VERSION}/bin/activate
 	{{PY}} -m pip install -U pip
 
+ci-bootstrap PYTHON_VERSION:
+	#!/bin/bash
+	git submodule update --init
+	if [[ "3."* == "{{PYTHON_VERSION}}" ]]; then
+	  python3 -m pip install --upgrade pip venv
+	else
+	  python2 -m pip install --upgrade pip virtualenv
+	fi
+
 clean:
-	rm -rfv .env-$HOSTNAME-python*
+	rm -rfv .env-$HOSTNAME-py*
 	rm -rfv build dist __pycache__ *.egg-info
 
 run COMMAND: env
 	#!/bin/bash
-	. .env-$HOSTNAME-{{PY}}/bin/activate
+	PY_MAYOR="$({{PY}} -c 'import sys; sys.stdout.write(str(sys.version_info[0]))')"
+	PY_MINOR="$({{PY}} -c 'import sys; sys.stdout.write(str(sys.version_info[1]))')"
+	PY_VERSION="${PY_MAYOR}${PY_MINOR}"
+	. .env-$HOSTNAME-py${PY_VERSION}/bin/activate
 	{{COMMAND}}
 
 install:
