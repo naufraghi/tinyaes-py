@@ -6,6 +6,7 @@ from libc.stdint cimport uint8_t, uint32_t
 cdef uint8_t AES_KEYLEN = 16
 cdef uint8_t AES_BLOCKLEN = 16
 
+
 cdef class AES:
     cdef tinyaes.AES_ctx _ctx
     def __cinit__(self, bytes key, bytes iv=None):
@@ -21,8 +22,11 @@ cdef class AES:
         else:
             tinyaes.AES_init_ctx_iv(&self._ctx, key, iv)
     def CTR_xcrypt_buffer(self, data):
-        inout = bytes(data)
-        tinyaes.AES_CTR_xcrypt_buffer(&self._ctx, data, len(data))
-        return inout
+        inout = bytearray(data)
+        # TODO: check if in the Python interpreter invariants is valid to
+        # create and mutate inplace a `bytes` buffer, instead of creating a
+        # `bytearray`, mutating it and returning back `bytes`.
+        tinyaes.AES_CTR_xcrypt_buffer(&self._ctx, inout, len(inout))
+        return bytes(inout)
     def CTR_xcrypt_buffer_inplace(self, bytearray data):
         tinyaes.AES_CTR_xcrypt_buffer(&self._ctx, data, len(data))

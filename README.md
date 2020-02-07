@@ -13,3 +13,8 @@ Given the C API works modifying a buffer inplace, the wrapper offers:
   encrypting a copy of the buffer,
 - `CTR_xcrypt_buffer_inplace(..)` that works on `bytearray`s only, modifying
   the buffer inplace.
+
+## Release notes
+
+- 1.0.0a2 (Jan 29, 2020): first public release
+- 1.0.0a3 (Feb 7, 2020): fix bytes inplace mutation error
