@@ -78,6 +78,14 @@ test: install dev-install
 	just PY={{PY}} run "python -m pytest . -v"
 
 dist:
+	#!/bin/bash
 	just PY={{PY}} run "python -m pip install cython setuptools wheel"
 	just PY={{PY}} run "python setup.py sdist"
 	just PY={{PY}} run "python setup.py bdist_wheel"
+	version=$(grep "version=" setup.py | egrep -o "[0-9]+\.[0-9]+\.[^\"]+")
+	echo "-------------------------------------------------------------------"
+	echo "Now you can publish with 'twine upload dist/*${version}*.tar.gz'!!"
+	ls -l dist/*${version}*.tar.gz
+	echo "Do not forget to test bigger changes on TestPyPI:"
+	echo "https://packaging.python.org/guides/using-testpypi/#using-test-pypi"
+	echo "-------------------------------------------------------------------"
