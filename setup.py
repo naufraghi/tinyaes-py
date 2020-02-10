@@ -30,7 +30,7 @@ setup(
     description="tiny-AES-c wrapper in Cython",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="1.0.0a3",
+    version="1.0.0",
     author="Matteo Bertini",
     author_email="naufraghi@develer.com",
     url="https://github.com/naufraghi/tinyaes-py",
@@ -50,7 +50,7 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 5 - Production/Stable",
         # Indicate who your project is intended for
         "Intended Audience :: Developers",
         "Topic :: Security :: Cryptography",
