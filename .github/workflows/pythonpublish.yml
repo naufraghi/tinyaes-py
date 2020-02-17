@@ -1,27 +1,35 @@
-name: Build and test Python package
+name: Upload Python Package
 
-on: [push]
+on:
+  release:
+    types: [created]
 
 jobs:
-  build-linux:
+  deploy-linux:
     runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        python-version: [2.7, 3.7, 3.8]
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python
       uses: actions/setup-python@v1
       with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
+        python-version: '3.x'
+    - name: Update submodules
       run: |
-        curl -L https://github.com/casey/just/releases/download/v0.5.8/just-v0.5.8-x86_64-unknown-linux-musl.tar.gz | tar -vzx just
-        sudo mv just /usr/local/bin
-        just script/unix/ci-bootstrap
-    - name: Test with pytest
+        git submodule update --init
+    - name: Build manylinux Python wheels
+      uses: RalfG/python-wheels-manylinux-build@v0.2.1-manylinux1_x86_64
+      with:
+        python-versions: 'cp27-cp27m cp27-cp27mu cp36-cp36m cp37-cp37m cp38-cp38'
+        build-requirements: 'cython'
+        system-packages: 'patchelf'
+        package-path: ''
+    - name: Publish wheels to PyPI
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
-        just script/unix/ci-test
+        python -m pip install twine
+        twine upload --skip-existing wheelhouse/*-manylinux*.whl
 
   build-macos:
     runs-on: macos-10.15
@@ -39,9 +47,16 @@ jobs:
         curl -L https://github.com/casey/just/releases/download/v0.5.8/just-v0.5.8-x86_64-apple-darwin.tar.gz | tar -vzx just
         sudo mv just /usr/local/bin
         just script/unix/ci-bootstrap
-    - name: Test with pytest
+    - name: Build wheels
       run: |
-        just script/unix/ci-test
+        just script/unix/ci-dist
+    - name: Publish wheels to PyPI
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        python -m pip install twine
+        twine upload --skip-existing dist/*.whl dist/*.tar.gz
 
   build-windows:
     runs-on: windows-2019
@@ -61,11 +76,14 @@ jobs:
         Expand-Archive .\just-$JustVersion-x86_64-pc-windows-msvc.zip unzipped
         $Env:Path = (Join-Path (Get-Location) "unzipped") + ";" + $Env:Path
         just script/windows/ci-bootstrap
-    - name: Install Vistual Studio for Python 2.7
-      if: matrix.python-version == '2.7'
-      run: |
-        choco install vcpython27 --yes
-    - name: Test with pytest
+    - name: Build wheels
       run: |
         $Env:Path = (Join-Path (Get-Location) "unzipped") + ";" + $Env:Path
-        just script/windows/ci-test
+        just script/windows/ci-dist
+    - name: Publish wheels to PyPI
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        python -m pip install twine
+        twine upload --skip-existing dist/*.whl

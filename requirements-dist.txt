@@ -1,0 +1,4 @@
+cython
+setuptools
+wheel
+auditwheel; 'linux' in sys_platform

@@ -5,6 +5,8 @@ list:
 
 PY := "python"
 
+VERSION := `grep "version=" setup.py | egrep -o "[0-9]+\.[0-9]+\.[^\"]+"`
+
 env:
 	#!/bin/bash
 	PY_MAYOR="$({{PY}} -c 'import sys; sys.stdout.write(str(sys.version_info[0]))')"
@@ -43,7 +45,7 @@ install:
 	just PY={{PY}} run "python -m pip install -e ."
 
 dev-install:
-	just PY={{PY}} run "python -m pip install pytest hypothesis"
+	just PY={{PY}} run "python -m pip install -r requirements-dev.txt"
 
 _test:
 	#!/usr/bin/env python
@@ -78,14 +80,18 @@ test: install dev-install
 	just PY={{PY}} run "python -m pytest . -v"
 
 dist:
-	#!/bin/bash
-	just PY={{PY}} run "python -m pip install cython setuptools wheel"
-	just PY={{PY}} run "python setup.py sdist"
-	just PY={{PY}} run "python setup.py bdist_wheel"
-	version=$(grep "version=" setup.py | egrep -o "[0-9]+\.[0-9]+\.[^\"]+")
-	echo "-------------------------------------------------------------------"
-	echo "Now you can publish with 'twine upload dist/*${version}*.tar.gz'!!"
-	ls -l dist/*${version}*.tar.gz
-	echo "Do not forget to test bigger changes on TestPyPI:"
-	echo "https://packaging.python.org/guides/using-testpypi/#using-test-pypi"
-	echo "-------------------------------------------------------------------"
+	just PY={{PY}} run "python -m pip install -r requirements-dist.txt"
+	just PY={{PY}} run "python setup.py sdist bdist_wheel"
+	@echo "-------------------------------------------------------------------"
+	@echo "Now you can publish with 'twine upload dist/*{{VERSION}}*.tar.gz'!!"
+	ls -l dist/*{{VERSION}}*.tar.gz
+	@echo "Do not forget to test bigger changes on TestPyPI:"
+	@echo "https://packaging.python.org/guides/using-testpypi/#using-test-pypi"
+	@echo "-------------------------------------------------------------------"
+
+audit: dist
+	just PY={{PY}} run "python -m auditwheel show dist/*{{VERSION}}*.whl"
+	@echo "-------------------------------------------------------------------"
+	just PY={{PY}} run "python -m auditwheel repair dist/*{{VERSION}}*.whl"
+	@echo "-------------------------------------------------------------------"
+	ls -l wheelhouse/*{{VERSION}}*.whl
