@@ -22,8 +22,8 @@ else:
     source = "tinyaes.c"
     assert os.path.exists("tinyaes.c"), "Install Cython to build this package from sources"
 
-with open("README.md", encoding="utf-8") as f:
-    long_description = f.read()
+with open("README.md", "rb") as f:
+    long_description = f.read().decode("utf-8")
 
 setup(
     name="tinyaes",
