@@ -22,11 +22,13 @@ else:
     source = "tinyaes.c"
     assert os.path.exists("tinyaes.c"), "Install Cython to build this package from sources"
 
+with open("README.md", encoding="utf-8") as f:
+    long_description = f.read()
 
 setup(
     name="tinyaes",
     description="tiny-AES-c wrapper in Cython",
-    long_description=open("README.md").read(),
+    long_description=long_description,
     long_description_content_type="text/markdown",
     version="1.0.0a3",
     author="Matteo Bertini",
