@@ -57,5 +57,5 @@ software. I'd like to thank:
 - A huge thank to all the [hypothesis](https://github.com/HypothesisWorks/hypothesis)
   authors to their fantastic library, that helped me to find an miss-named
   variable bug that I worked very hard to add in a 6 lines of code wrapper! And
-  to this Data-driven testing with python article that had left me with the
-  desire to try the library.
+  to this [Data-driven testing with Python](https://www.develer.com/en/data-driven-testing-with-python/)
+  article that had left me with the desire to try the library.
