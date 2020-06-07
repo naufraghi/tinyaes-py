@@ -6,27 +6,27 @@ from hypothesis.strategies import binary
 import tinyaes
 
 
-@fixture
+@fixture(scope='module')
 def aes_enc():
     return tinyaes.AES(b'0123456789ABCDEF',
                        b'1234567890ABCDEF')
 
 
-@fixture
+@fixture(scope='module')
 def aes_dec():
     # Need to have two same-keys instancies
     return tinyaes.AES(b'0123456789ABCDEF',
                        b'1234567890ABCDEF')
 
 
-@fixture
+@fixture(scope='module')
 def aes_dec2():
     # Different key for decoding test
     return tinyaes.AES(b'ABCDEF0123456789',
                        b'ABCDEF1234567890')
 
 
-@fixture
+@fixture(scope='module')
 def aes_dec3():
     # Different key for decoding test
     return tinyaes.AES(b'56789ABCDEF01234',
