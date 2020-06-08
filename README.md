@@ -16,9 +16,13 @@ Given the C API works modifying a buffer in-place, the wrapper offers:
 
 ## Release notes
 
-- 1.0.0a2 (Jan 29, 2020): first public release
-- 1.0.0a3 (Feb 7, 2020): fix bytes in-place mutation error
+- 1.0.1 (Jun 8, 2020):
+  - release Python 3.6 OSX and Windows wheels
+  - updated upstream [`tiny-AES-c`](https://github.com/kokke/tiny-AES-c) with
+    minimal code changes
 - 1.0.0 (Feb 20, 2020): updated readme (no code changes)
+- 1.0.0a3 (Feb 7, 2020): fix bytes in-place mutation error
+- 1.0.0a2 (Jan 29, 2020): first public release
 
 ## Like to help?
 
