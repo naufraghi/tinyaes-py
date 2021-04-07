@@ -17,9 +17,9 @@ jobs:
       run: |
         git submodule update --init
     - name: Build manylinux Python wheels
-      uses: RalfG/python-wheels-manylinux-build@v0.2.1-manylinux1_x86_64
+      uses: RalfG/python-wheels-manylinux-build@v0.3.3-manylinux1_x86_64
       with:
-        python-versions: 'cp27-cp27m cp27-cp27mu cp36-cp36m cp37-cp37m cp38-cp38'
+        python-versions: 'cp27-cp27m cp27-cp27mu cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39'
         deploy-requirements: 'cython'
         system-packages: 'patchelf'
         package-path: ''
@@ -35,7 +35,7 @@ jobs:
     runs-on: macos-10.15
     strategy:
       matrix:
-        python-version: [2.7, 3.6, 3.7, 3.8]
+        python-version: [2.7, 3.6, 3.7, 3.8, 3.9]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -62,7 +62,7 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7, 3.8, 3.9]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
