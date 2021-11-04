@@ -15,7 +15,7 @@ Given the C API works modifying a buffer in-place, the wrapper offers:
   the buffer in-place.
 
 ## Release notes
-
+- 1.0.2 (Nov 4, 2021): version bump from 1.0.2rc1
 - 1.0.2rc1 (Apr 7, 2021):
   - added release Python 3.9 on Windows, Linux (`manylinux1`) and OSX
   - updated upstream [`tiny-AES-c`](https://github.com/kokke/tiny-AES-c) with
