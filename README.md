@@ -16,7 +16,7 @@ Given the C API works modifying a buffer in-place, the wrapper offers:
 ## Release notes
 - 1.0.2 (Nov 4, 2021):
   - version bump from 1.0.2rc1
-  - bump to `manylinux2010` because of tsl errors and drop Python 2.7
+  - bump to `manylinux2010` because of tlsv1 errors and drop Python 2.7
     missing in the new image
 - 1.0.2rc1 (Apr 7, 2021):
   - added release Python 3.9 on Windows, Linux (`manylinux1`) and OSX
