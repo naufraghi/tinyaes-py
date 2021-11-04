@@ -14,7 +14,9 @@ Given the C API works modifying a buffer in-place, the wrapper offers:
   the buffer in-place.
 
 ## Release notes
-- 1.0.2 (Nov 4, 2021):
+- 1.0.3rc1 (Nov 4, 2021):
+  - add Python 3.10 to the matrix
+- **1.0.2** (Nov 4, 2021):
   - version bump from 1.0.2rc1
   - bump to `manylinux2010` because of tlsv1 errors and drop Python 2.7
     missing in the new image
@@ -22,11 +24,11 @@ Given the C API works modifying a buffer in-place, the wrapper offers:
   - added release Python 3.9 on Windows, Linux (`manylinux1`) and OSX
   - updated upstream [`tiny-AES-c`](https://github.com/kokke/tiny-AES-c) with
     some cleanups and small optimizations
-- 1.0.1 (Jun 8, 2020):
+- **1.0.1** (Jun 8, 2020):
   - release Python 3.6 OSX and Windows wheels
   - updated upstream [`tiny-AES-c`](https://github.com/kokke/tiny-AES-c) with
     some code changes
-- 1.0.0 (Feb 20, 2020): updated readme (no code changes)
+- **1.0.0** (Feb 20, 2020): updated readme (no code changes)
 - 1.0.0a3 (Feb 7, 2020): fix bytes in-place mutation error
 - 1.0.0a2 (Jan 29, 2020): first public release
 
