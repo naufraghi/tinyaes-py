@@ -1,6 +1,5 @@
-[![PyPI version](https://badge.fury.io/py/tinyaes.svg)](https://pypi.org/project/tinyaes/)
-
 # tiny-AES-c Cython wrapper
+[![PyPI version](https://badge.fury.io/py/tinyaes.svg)](https://pypi.org/project/tinyaes/)
 
 [`tinyaes`](https://github.com/naufraghi/tinyaes-py) is a few lines Cython
 wrapper for the [`tiny-AES-c`](https://github.com/kokke/tiny-AES-c) library, a
@@ -15,7 +14,10 @@ Given the C API works modifying a buffer in-place, the wrapper offers:
   the buffer in-place.
 
 ## Release notes
-- 1.0.2 (Nov 4, 2021): version bump from 1.0.2rc1
+- 1.0.2 (Nov 4, 2021):
+  - version bump from 1.0.2rc1
+  - bump to `manylinux2010` because of tsl errors and drop Python 2.7
+    missing in the new image
 - 1.0.2rc1 (Apr 7, 2021):
   - added release Python 3.9 on Windows, Linux (`manylinux1`) and OSX
   - updated upstream [`tiny-AES-c`](https://github.com/kokke/tiny-AES-c) with
