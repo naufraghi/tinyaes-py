@@ -3,3 +3,4 @@ build/
 dist/
 tinyaes.egg-info/
 .hypothesis/
+.venv/
