@@ -15,6 +15,8 @@ Given the C API works modifying a buffer in-place, the wrapper offers:
 
 ## Release notes
 
+- **1.0.4** (Nov 3, 2022)
+  - Final release with Python 3.11
 - 1.0.4rc1 (Oct 24, 2022)
   - add Python 3.11 to the matrix, remove Python 2.7 and 3.6
 - **1.0.3** (Feb 22, 2022)

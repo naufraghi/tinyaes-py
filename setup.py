@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2020 Matteo Bertini <naufraghi@develer.com>
+# Copyright (c) 2022 Matteo Bertini <naufraghi@develer.com>
 
 import os
 from setuptools import setup, find_packages, Extension
@@ -30,7 +30,7 @@ setup(
     description="tiny-AES-c wrapper in Cython",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="1.0.4rc1",
+    version="1.0.4",
     author="Matteo Bertini",
     author_email="naufraghi@develer.com",
     url="https://github.com/naufraghi/tinyaes-py",
