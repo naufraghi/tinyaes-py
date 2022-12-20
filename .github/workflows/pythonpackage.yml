@@ -5,9 +5,10 @@ on: [push]
 jobs:
   build-linux:
     runs-on: ubuntu-20.04
+    continue-on-error: ${{ endsWith(matrix.python-version, 'dev') }}
     strategy:
       matrix:
-        python-version: ["2.7", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["2.7", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12-dev"]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -25,9 +26,10 @@ jobs:
 
   build-macos:
     runs-on: macos-11
+    continue-on-error: ${{ endsWith(matrix.python-version, 'dev') }}
     strategy:
       matrix:
-        python-version: ["2.7", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["2.7", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12-dev"]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -45,9 +47,10 @@ jobs:
 
   build-windows:
     runs-on: windows-2019
+    continue-on-error: ${{ endsWith(matrix.python-version, 'dev') }}
     strategy:
       matrix:
-        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12-dev"]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
