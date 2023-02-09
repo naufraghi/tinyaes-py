@@ -5,6 +5,9 @@ from hypothesis.strategies import binary
 
 import tinyaes
 
+def pad(m):
+    str = chr(16-len(m)%16)*(16-len(m)%16)
+    return m+str.encode("utf-8")
 
 @fixture(scope='module')
 def aes_enc():
@@ -14,6 +17,22 @@ def aes_enc():
 
 @fixture(scope='module')
 def aes_dec():
+    # Need to have two same-keys instancies
+    return tinyaes.AES(b'0123456789ABCDEF',
+                       b'1234567890ABCDEF')
+
+@fixture(scope='module')
+def aes_enc_cbc():
+    return tinyaes.AES(b'0123456789ABCDEF',
+                       b'1234567890ABCDEF')
+
+@fixture(scope='module')
+def aes_enc2_cbc():
+    return tinyaes.AES(b'0123456789ABCDEF',
+                       b'1234567890ABCDEF')
+
+@fixture(scope='module')
+def aes_dec_cbc():
     # Need to have two same-keys instancies
     return tinyaes.AES(b'0123456789ABCDEF',
                        b'1234567890ABCDEF')
@@ -31,6 +50,12 @@ def aes_dec3():
     # Different key for decoding test
     return tinyaes.AES(b'56789ABCDEF01234',
                        b'567890ABCDEF1234')
+
+@fixture(scope='module')
+def aes_dec2_cbc():
+    # Different key for decoding test
+    return tinyaes.AES(b'ABCDEF0123456789',
+                       b'ABCDEF1234567890')
 
 
 @given(key=binary(min_size=16, max_size=16))
@@ -86,3 +111,16 @@ def test_different_keys_do_not_decode(data, aes_enc, aes_dec2, aes_dec3):
     # we can expect a single collision, but not two with two different keys and ivs
     assert aes_dec2.CTR_xcrypt_buffer(encoded) != data \
         or aes_dec3.CTR_xcrypt_buffer(encoded) != data
+
+@given(data=binary(min_size=2, max_size=100))
+def test_different_keys_do_not_decode_cbc(data, aes_enc_cbc, aes_dec2_cbc):
+    data = pad(data)
+    encoded = aes_enc_cbc.AES_CBC_encrypt_buffer(data)
+
+    assert aes_dec2_cbc.AES_CBC_decrypt_buffer(encoded) != data
+
+@given(data=binary(min_size=2, max_size=100))
+def test_cbc_decode(data, aes_enc2_cbc, aes_dec_cbc):
+    data = pad(data)
+    encoded = aes_enc2_cbc.AES_CBC_encrypt_buffer(data)
+    assert aes_dec_cbc.AES_CBC_decrypt_buffer(encoded) == data
