@@ -6,8 +6,7 @@ from hypothesis.strategies import binary
 import tinyaes
 
 def pad(m):
-    str = chr(16-len(m)%16)*(16-len(m)%16)
-    return m+str.encode("utf-8")
+    return m+bytes([16-len(m)%16]*(16-len(m)%16))
 
 @fixture(scope='module')
 def aes_enc():
