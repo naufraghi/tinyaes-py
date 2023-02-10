@@ -1,6 +1,6 @@
 name: Build and test Python package
 
-on: [push]
+on: [push, workflow_dispatch]
 
 jobs:
   build-linux:
