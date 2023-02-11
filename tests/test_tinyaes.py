@@ -111,15 +111,26 @@ def test_different_keys_do_not_decode(data, aes_enc, aes_dec2, aes_dec3):
     assert aes_dec2.CTR_xcrypt_buffer(encoded) != data \
         or aes_dec3.CTR_xcrypt_buffer(encoded) != data
 
+
 @given(data=binary(min_size=2, max_size=100))
 def test_different_keys_do_not_decode_cbc(data, aes_enc_cbc, aes_dec2_cbc):
     data = pad(data)
-    encoded = aes_enc_cbc.AES_CBC_encrypt_buffer(data)
+    original_data = data[:len(data) // 2] + data[len(data) // 2:]  # Force a copy not allowing any sharing
+    aes_enc_cbc.CBC_encrypt_buffer_inplace(data)
+    aes_dec2_cbc.CBC_decrypt_buffer_inplace(data)
+    assert data != original_data
 
-    assert aes_dec2_cbc.AES_CBC_decrypt_buffer(encoded) != data
 
 @given(data=binary(min_size=2, max_size=100))
 def test_cbc_decode(data, aes_enc2_cbc, aes_dec_cbc):
     data = pad(data)
-    encoded = aes_enc2_cbc.AES_CBC_encrypt_buffer(data)
-    assert aes_dec_cbc.AES_CBC_decrypt_buffer(encoded) == data
+    original_data = data[:len(data) // 2] + data[len(data) // 2:]  # Force a copy not allowing any sharing
+    aes_enc2_cbc.CBC_encrypt_buffer_inplace(data)
+    aes_dec_cbc.CBC_decrypt_buffer_inplace(data)
+    assert data == original_data
+
+
+def test_bad_block_size_cbc(aes_enc_cbc, aes_dec2_cbc):
+    data = bytes.fromhex('00112233445566778899AA')
+    with pytest.raises(ValueError, match=r"Length of plaintext must be multiple of.*"):
+        aes_enc_cbc.CBC_encrypt_buffer_inplace(data)

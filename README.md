@@ -5,13 +5,48 @@
 wrapper for the [`tiny-AES-c`](https://github.com/kokke/tiny-AES-c) library, a
 _Small portable AES128/192/256 in C_.
 
-The library offers a few modes, CTR mode is the only one currently wrapped.
+The library offers a few modes, CTR and CBC modes are the only ones currently wrapped.
 Given the C API works modifying a buffer in-place, the wrapper offers:
 
 - `CTR_xcrypt_buffer(..)` that works on all bytes convertible types, and
   encrypting a copy of the buffer,
 - `CTR_xcrypt_buffer_inplace(..)` that works on `bytearray`s only, modifying
   the buffer in-place.
+- `CBC_encrypt_buffer_inplace(..)` that works on `bytearray`s only, modifying
+  the buffer in-place.
+- `CBC_decrypt_buffer_inplace(..)` that works on `bytearray`s only, modifying
+  the buffer in-place.
+
+CBC usage Example:
+```
+import tinyaes
+import binascii
+
+
+def pad(m):
+    return m + bytes([16 - len(m) % 16] * (16 - len(m) % 16))
+
+
+def unpad(ct):
+    return ct[:-ct[-1]]
+
+
+# assign key and IV
+aes_enc = tinyaes.AES(bytes.fromhex('11223344556677889900AABBCCDDEEFF'),
+                      bytes.fromhex('FFEEDDCCBBAA00998877665544332211'))
+aes_dec = tinyaes.AES(bytes.fromhex('11223344556677889900AABBCCDDEEFF'),
+                      bytes.fromhex('FFEEDDCCBBAA00998877665544332211'))
+
+text = b"hello"
+print(text)  # b'hello'
+# padding plaintext to a multiple of block size
+text = pad(text)
+print(binascii.hexlify(bytearray(text)))  # b'68656c6c6f0b0b0b0b0b0b0b0b0b0b0b' hex representation of added text
+aes_enc.CBC_encrypt_buffer_inplace(text)  # b'5adc04828f9421c34210b05fe5c92bfd' hex representation of encrypted text
+print(binascii.hexlify(bytearray(text)))
+aes_dec.CBC_decrypt_buffer_inplace(text)
+print(unpad(text)) # b'hello' decrypted, original text
+```
 
 ## Release notes
 
