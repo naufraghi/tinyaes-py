@@ -22,7 +22,7 @@ jobs:
         env:
           CIBW_BUILD_VERBOSITY: 1
           CIBW_BUILD: "cp37-* cp38-* cp39-* cp310-* cp311-*"
-          CIBW_SKIP: "pp* *-musllinux* *_aarch64 *_ppc64le *_s390x *_i686 *_universal2"
+          CIBW_SKIP: "pp* *-musllinux* *_aarch64 *_ppc64le *_s390x *_i686"
 
       - uses: actions/upload-artifact@v3
         with:
