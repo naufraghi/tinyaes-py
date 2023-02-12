@@ -18,9 +18,10 @@ jobs:
           submodules: true
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.11.2
+        uses: pypa/cibuildwheel@v2.12.0
         env:
           CIBW_BUILD_VERBOSITY: 1
+          CIBW_ARCHS_MACOS: "x86_64 universal2 arm64"
           CIBW_BUILD: "cp37-* cp38-* cp39-* cp310-* cp311-*"
           CIBW_SKIP: "pp* *-musllinux* *_aarch64 *_ppc64le *_s390x *_i686"
 
