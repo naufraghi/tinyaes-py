@@ -50,6 +50,9 @@ print(unpad(text)) # b'hello' decrypted, original text
 
 ## Release notes
 
+- 1.1.0rc0 (13 Feb 2023)
+  - Drop support for Python 2.7 (CI tests and builds are disabled, code may still work)
+  - Add support for CBC mode (unstable API, inplace only, manual padding)
 - **1.0.4** (Nov 3, 2022)
   - Final release with Python 3.11
 - 1.0.4rc1 (Oct 24, 2022)
