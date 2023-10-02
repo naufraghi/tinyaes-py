@@ -12,12 +12,13 @@ Given the C API works modifying a buffer in-place, the wrapper offers:
   encrypting a copy of the buffer,
 - `CTR_xcrypt_buffer_inplace(..)` that works on `bytearray`s only, modifying
   the buffer in-place.
-- `CBC_encrypt_buffer_inplace(..)` that works on `bytearray`s only, modifying
-  the buffer in-place.
-- `CBC_decrypt_buffer_inplace(..)` that works on `bytearray`s only, modifying
-  the buffer in-place.
+- `CBC_encrypt_buffer_inplace_raw(..)` that works on `bytearray`s only, modifying
+  the buffer in-place (manual padding).
+- `CBC_decrypt_buffer_inplace_raw(..)` that works on `bytearray`s only, modifying
+  the buffer in-place (manual unpadding).
 
-CBC usage Example:
+<details><summary>CBC usage Example:</summary>
+
 ```
 import tinyaes
 import binascii
@@ -42,14 +43,19 @@ print(text)  # b'hello'
 # padding plaintext to a multiple of block size
 text = pad(text)
 print(binascii.hexlify(bytearray(text)))  # b'68656c6c6f0b0b0b0b0b0b0b0b0b0b0b' hex representation of added text
-aes_enc.CBC_encrypt_buffer_inplace(text)  # b'5adc04828f9421c34210b05fe5c92bfd' hex representation of encrypted text
+aes_enc.CBC_encrypt_buffer_inplace_raw(text)  # b'5adc04828f9421c34210b05fe5c92bfd' hex representation of encrypted text
 print(binascii.hexlify(bytearray(text)))
-aes_dec.CBC_decrypt_buffer_inplace(text)
+aes_dec.CBC_decrypt_buffer_inplace_raw(text)
 print(unpad(text)) # b'hello' decrypted, original text
 ```
 
+</details>
+
 ## Release notes
 
+- 1.1.0rc1 (Oct 2, 2023)
+  - Add Python 3.12 final to the matrix
+  - Expose _raw_ functions for CBC mode, with manual padding and unpadding
 - 1.1.0rc0 (13 Feb 2023)
   - Drop support for Python 2.7 (CI tests and builds are disabled, code may still work)
   - Add support for CBC mode (unstable API, inplace only, manual padding)
