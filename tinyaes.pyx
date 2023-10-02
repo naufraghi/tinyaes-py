@@ -31,11 +31,11 @@ cdef class AES:
     def CTR_xcrypt_buffer_inplace(self, bytearray data):
         tinyaes.AES_CTR_xcrypt_buffer(&self._ctx, data, len(data))
 
-    def CBC_encrypt_buffer_inplace(self, data):
+    def CBC_encrypt_buffer_inplace_raw(self, data):
         if len(data) % AES_KEYLEN:
             raise ValueError(f"Length of plaintext must be multiple of {AES_KEYLEN} bytes")
         tinyaes.AES_CBC_encrypt_buffer(&self._ctx, data, len(data))
-    def CBC_decrypt_buffer_inplace(self, data):
+    def CBC_decrypt_buffer_inplace_raw(self, data):
         if len(data) % AES_KEYLEN:
             raise ValueError(f"Length of plaintext must be multiple of {AES_KEYLEN} bytes")
         tinyaes.AES_CBC_decrypt_buffer(&self._ctx, data, len(data))
