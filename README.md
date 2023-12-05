@@ -53,6 +53,8 @@ print(unpad(text)) # b'hello' decrypted, original text
 
 ## Release notes
 
+- **1.1.0** (Dec 5, 2023)
+  - Final release with Python 3.12
 - 1.1.0rc1 (Oct 2, 2023)
   - Add Python 3.12 final to the matrix
   - Expose _raw_ functions for CBC mode, with manual padding and unpadding
