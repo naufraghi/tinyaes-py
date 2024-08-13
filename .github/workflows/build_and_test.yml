@@ -64,10 +64,6 @@ jobs:
         Expand-Archive .\just-$JustVersion-x86_64-pc-windows-msvc.zip unzipped
         $Env:Path = (Join-Path (Get-Location) "unzipped") + ";" + $Env:Path
         just script/windows/ci-bootstrap
-    - name: Install Vistual Studio for Python 2.7
-      if: matrix.python-version == '2.7'
-      run: |
-        choco install vcpython27 --yes
     - name: Test with pytest
       run: |
         $Env:Path = (Join-Path (Get-Location) "unzipped") + ";" + $Env:Path
