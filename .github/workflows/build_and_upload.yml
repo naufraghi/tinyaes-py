@@ -25,7 +25,7 @@ jobs:
           CIBW_BUILD: "cp37-* cp38-* cp39-* cp310-* cp311-* cp312-*"
           CIBW_SKIP: "pp* *-musllinux* *_aarch64 *_ppc64le *_s390x *_i686"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: ./wheelhouse/*.whl
 
@@ -40,7 +40,7 @@ jobs:
       - name: Build sdist
         run: pipx run build --sdist
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: dist/*.tar.gz
 
