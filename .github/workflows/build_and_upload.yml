@@ -27,6 +27,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
+          name: dist-wheels-${{ matrix.os }}
           path: ./wheelhouse/*.whl
 
   build_sdist:
@@ -42,6 +43,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
+          name: dist-source
           path: dist/*.tar.gz
 
   upload_pypi:
@@ -54,10 +56,9 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          # unpacks default artifact into dist/
-          # if `name: artifact` is omitted, the action will create extra parent dir
-          name: artifact
           path: dist
+          pattern: dist-*
+          merge-multiple: true
 
       - uses: pypa/gh-action-pypi-publish@v1.5.0
         with:
