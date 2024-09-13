@@ -53,6 +53,14 @@ print(unpad(text)) # b'hello' decrypted, original text
 
 ## Release notes
 
+- **1.1.1rc1** (Sept 13, 2024) (thanks to @adehad)
+  - Add Python 3.13 to the matrix
+  - Drop Python 2.7, 3.6 and 3.7 (keep Python 3.8+)
+  - Upgrade from windows-2019 to 2020
+  - Upgrade from ubuntu-20.04 to 22.04
+  - Upgrade from macos-11 to 13 and 14
+  - Update actions to the latest version
+  - Remove x86_64 and arm64 and keep only universal2 for macos
 - **1.1.0** (Dec 5, 2023)
   - Final release with Python 3.12
 - 1.1.0rc1 (Oct 2, 2023)
