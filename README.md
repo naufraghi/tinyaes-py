@@ -53,6 +53,8 @@ print(unpad(text)) # b'hello' decrypted, original text
 
 ## Release notes
 
+- **1.1.2** (Oct 27, 2024)
+  - Add Python 3.14 to the matrix
 - **1.1.1** (Sept 13, 2024)
   - Final release with Python 3.13
 - **1.1.1rc1** (Sept 13, 2024)
