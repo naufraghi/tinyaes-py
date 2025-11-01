@@ -25,7 +25,7 @@ jobs:
           CIBW_BUILD: "cp38-* cp39-* cp310-* cp311-* cp312-* cp313-* cp314-*"
           CIBW_SKIP: "pp* *-musllinux* *_aarch64 *_ppc64le *_s390x *_i686"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: dist-wheels-${{ matrix.os }}
           path: ./wheelhouse/*.whl
@@ -41,7 +41,7 @@ jobs:
       - name: Build sdist
         run: pipx run build --sdist
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: dist-source
           path: dist/*.tar.gz
