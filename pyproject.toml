@@ -1,3 +1,5 @@
 [build-system]
-requires = ['cython', 'setuptools']
+requires = ['cython', 'setuptools', 'setuptools-scm']
 build-backend = 'setuptools.build_meta'
+
+[tool.setuptools_scm]

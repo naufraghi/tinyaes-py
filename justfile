@@ -5,7 +5,7 @@ list:
 
 PY := "python"
 
-VERSION := `grep "version=" setup.py | egrep -o "[0-9]+\.[0-9]+\.[^\"]+"`
+VERSION := `python -m setuptools_scm 2>/dev/null || git describe --tags --abbrev=0 | sed 's/^v//'`
 
 env:
 	#!/bin/bash

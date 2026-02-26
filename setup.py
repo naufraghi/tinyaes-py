@@ -30,7 +30,7 @@ setup(
     description="tiny-AES-c wrapper in Cython",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="1.1.2",
+    use_scm_version=True,
     author="Matteo Bertini",
     author_email="naufraghi@develer.com",
     url="https://github.com/naufraghi/tinyaes-py",

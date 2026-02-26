@@ -1,3 +1,4 @@
 pytest
 hypothesis
 cython
+setuptools-scm
