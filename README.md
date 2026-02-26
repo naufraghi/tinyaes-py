@@ -53,6 +53,9 @@ print(unpad(text)) # b'hello' decrypted, original text
 
 ## Release notes
 
+- **1.1.3** (Feb 26, 2026)
+  - Drop Python 3.8 and 3.9 (EOL), require Python 3.10+
+  - Add `python_requires` to `setup.py` and `requires-python` to `pyproject.toml`
 - **1.1.2** (Oct 27, 2024)
   - Add Python 3.14 to the matrix
 - **1.1.1** (Sept 13, 2024)
