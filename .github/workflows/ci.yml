@@ -1,13 +1,13 @@
-name: Build and upload to PyPI
+name: CI
 
 on:
   push:
-  release:
-    types: [published]
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
+    name: Build & test wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -17,13 +17,15 @@ jobs:
         with:
           submodules: true
 
-      - name: Build wheels
+      - name: Build and test wheels
         uses: pypa/cibuildwheel@v3.3.1
         env:
           CIBW_BUILD_VERBOSITY: 1
           CIBW_ARCHS_MACOS: "x86_64 universal2 arm64"
           CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
           CIBW_SKIP: "pp* *-musllinux* *_aarch64 *_ppc64le *_s390x *_i686"
+          CIBW_TEST_REQUIRES: "pytest hypothesis"
+          CIBW_TEST_COMMAND: "pytest {project}/tests -v"
 
       - uses: actions/upload-artifact@v6
         with:
@@ -49,10 +51,7 @@ jobs:
   upload_pypi:
     needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
-    # upload to PyPI on every tag starting with 'v'
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    # alternatively, to publish when a GitHub Release is created, use the following rule:
-    # if: github.event_name == 'release' && github.event.action == 'published'
     steps:
       - uses: actions/download-artifact@v7
         with:
@@ -65,4 +64,3 @@ jobs:
           skip-existing: true
           user: ${{ secrets.PYPI_USERNAME }}
           password: ${{ secrets.PYPI_PASSWORD }}
-          # To test: repository_url: https://test.pypi.org/legacy/
