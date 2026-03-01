@@ -28,7 +28,7 @@ jobs:
           CIBW_TEST_REQUIRES: "pytest hypothesis"
           CIBW_TEST_COMMAND: "pytest {project}/tests -v"
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: dist-wheels-${{ matrix.os }}
           path: ./wheelhouse/*.whl
@@ -45,7 +45,7 @@ jobs:
       - name: Build sdist
         run: pipx run build --sdist
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: dist-source
           path: dist/*.tar.gz
