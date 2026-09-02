@@ -5,6 +5,15 @@
 
 import os
 from setuptools import setup, find_packages, Extension
+from setuptools.command.build_ext import build_ext
+
+class BuildExt(build_ext):
+    def run(self):
+        super().run()
+        for ext in self.extensions:
+            ext_path = self.get_ext_fullpath(ext.name)
+            dir_name = os.path.dirname(ext_path)
+            self.copy_file("tinyaes.pyi", os.path.join(dir_name, "tinyaes.pyi"))
 
 
 try:
@@ -60,4 +69,5 @@ setup(
         "Programming Language :: Cython",
     ],
     keywords="AES Cryptography block-cipher stream-cipher",
+    cmdclass={"build_ext": BuildExt},
 )

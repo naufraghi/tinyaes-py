@@ -21,6 +21,10 @@ cdef class AES:
             tinyaes.AES_init_ctx(&self._ctx, key)
         else:
             tinyaes.AES_init_ctx_iv(&self._ctx, key, iv)
+    def set_iv(self, bytes iv):
+        if len(iv) != AES_BLOCKLEN:
+            raise ValueError(f"AES128 needs a {AES_BLOCKLEN} bytes iv, but len(iv) = {len(iv)}")
+        tinyaes.AES_ctx_set_iv(&self._ctx, iv)
     def CTR_xcrypt_buffer(self, data):
         inout = bytearray(data)
         # TODO: check if in the Python interpreter invariants is valid to

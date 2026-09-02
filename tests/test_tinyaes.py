@@ -134,3 +134,22 @@ def test_bad_block_size_cbc(aes_enc_cbc, aes_dec2_cbc):
     data = bytes.fromhex('00112233445566778899AA')
     with pytest.raises(ValueError, match=r"Length of plaintext must be multiple of.*"):
         aes_enc_cbc.CBC_encrypt_buffer_inplace_raw(data)
+
+
+def test_set_iv_bad_size(aes_enc):
+    with pytest.raises(ValueError, match=r"AES128 needs a 16 bytes iv.*"):
+        aes_enc.set_iv(b'123')
+
+
+def test_set_iv_works(aes_enc_cbc):
+    # Encrypt a block
+    data1 = bytes.fromhex('00112233445566778899AABBCCDDEEFF')
+
+    aes = tinyaes.AES(b'0123456789ABCDEF', b'1234567890ABCDEF')
+    enc1 = aes.CTR_xcrypt_buffer(data1)
+
+    # Reset IV and encrypt same data, should be same ciphertext
+    aes.set_iv(b'1234567890ABCDEF')
+    enc2 = aes.CTR_xcrypt_buffer(data1)
+
+    assert enc1 == enc2
